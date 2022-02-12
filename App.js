@@ -86,117 +86,21 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             }, Album)
         );
         const progressLine = New('div', {
-            class: 'progress_line',
-            style: {
-                position: 'absolute',
-                left: '0',
-                bottom: '0',
-                top: '0',
-                height: '100%',
-                backgroundColor: '#0003',
-                zIndex: '548',
-                width: '100%'
-            }
+            class: 'progress_line'
         });
         const progressAmount = New('div', {
-            class: 'progress_amount',
-            style: {
-                position: 'absolute',
-                left: '0',
-                bottom: '0',
-                top: '0',
-                height: '100%',
-                backgroundColor: '#318cfc',
-                zIndex: '551',
-                width: '0'
-            }
+            class: 'progress_amount'
         });
 
-        const progressBuffer = New('div', {
-            class: 'progress_buffer',
-            style: {
-                position: 'absolute',
-                left: '0',
-                bottom: '0',
-                top: '0',
-                height: '100%',
-                backgroundColor: '#0006',
-                zIndex: '549',
-                width: '0'
-            }
-        });
         const progressIndicator = New('div', {
-            class: 'progress_indicator',
-            style: {
-                maxWidth: '12px',
-                maxHeight: '12px',
-                minWidth: '12px',
-                minHeight: '12px',
-                width: '12px',
-                height: '12px',
-                borderRadius: '10rem',
-                position: 'absolute',
-                backgroundColor: '#f2fafb',
-                zIndex: '551',
-                left: '0',
-                transform: 'translate(-6px, -25%)',
-                opacity: '0',
-                transition: 'opacity .25s cubic-bezier(0, 0, 0.2, 1) !important',
-                boxShadow: 'rgb(0 0 0 / 35%) 3px 6px 6px'
-            }
+            class: 'progress_indicator'
         });
         const progressList = New('div', {
-            class: 'progress_list',
-            style: {
-                zIndex: '39',
-                minHeight: '4px',
-                height: '4px',
-                maxHeight: '4px',
-                position: 'relative',
-                pointerEvents: 'none',
-                WebkitBoxFlex: '1',
-                WebkitFlexGrow: '1',
-                MozBoxFlex: '1',
-                MsFlexPositive: '1',
-                flexGrow: '1',
-                width: '100%',
-                WebkitTransition: 'height .1s cubic-bezier(0.4, 0, 1, 1)',
-                transition: 'height .1s cubic-bezier(0.4, 0, 1, 1)'
-            }
-        }, progressLine, progressAmount, progressBuffer, progressIndicator);
+            class: 'progress_list'
+        }, progressLine, progressAmount, progressIndicator);
         const ProgressBar = New('div', {
             class: 'progress_bar',
-            style: {
-                position: 'relative',
-                width: '100%',
-                zIndex: '31',
-                outline: 'none',
-                height: '12px',
-                padding: '0px 16px',
-                cursor: 'pointer',
-                WebkitBoxFlex: '1',
-                WebkitFlexGrow: '1',
-                MozBoxFlex: '1',
-                MsFlexPositive: '1',
-                flexGrow: '1',
-                WebkitFlexShrink: '0',
-                MsFlexNegative: '0',
-                flexShrink: '0',
-                // display: '-webkit-box',
-                // display: '-webkit-flex',
-                // display: '-moz-box',
-                // display: '-ms-flexbox',
-                display: 'flex',
-                WebkitBoxAlign: 'center',
-                WebkitAlignItems: 'center',
-                MozBoxAlign: 'center',
-                MsFlexAlign: 'center',
-                alignItems: 'center'
-            }
         }, progressList);
-        ProgressBar.addEventListener('mouseover', () => {
-            progressIndicator.style.opacity = '1';
-        });
 
         const currentTime = New('div', {
             class: 'currentTime'
@@ -480,22 +384,6 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
         MusicPlayer.addEventListener('play', PLAY_PAUSE_UPDATE);
         MusicPlayer.addEventListener('pause', PLAY_PAUSE_UPDATE);
         MusicPlayer.addEventListener('ended', PLAY_PAUSE_UPDATE);
-        MusicPlayer.addEventListener('progress', () => {
-            if (!MusicPlayer) {
-                return;
-            }
-            if (MusicPlayer.buffered.length > 0) {
-                const bufferedEnd = MusicPlayer.buffered.end(MusicPlayer.buffered.length - 1);
-                const duration = MusicPlayer.duration;
-                if (duration > 0) {
-                    const Percentage = (bufferedEnd / duration) * 100;
-                    progressBuffer.style.width = `${Percentage}%`;
-                }
-            }
-        }
-        );
-
-
 
         rootApp.innerHTML = '';
         rootApp.className = '';

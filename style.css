@@ -57,7 +57,7 @@ aside.sidebar > header.sidebar_header > svg {
 .logs_fetching {
 	position: fixed;
 	bottom: 24px;
-	right: 24px;
+	left: 24px;
 	z-index: 1;
 	font-family: "Google Sans", Roboto, Arial, sans-serif;
 	font-weight: 500;
@@ -68,6 +68,7 @@ aside.sidebar > header.sidebar_header > svg {
 	min-height: 48px;
 	height: 48px;
 	max-height: 48px;
+	border-radius: 4px;
 	width: fit-content;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -421,11 +422,89 @@ main#root > div#app > .header {
 }
 
 .progress_bar {
+	position: relative;
 	height: 12px;
 	min-height: 12px;
 	max-height: 12px;
 	width: 100%;
 	margin-bottom: 4px;
+	z-index: 31;
+	outline: none;
+	height: 12px;
+	padding: 0px 16px;
+	cursor: pointer;
+	-webkit-box-flex: 1;
+	-webkit-flex-grow: 1;
+	-moz-box-flex: 1;
+	-ms-flex-positive: 1;
+	flex-grow: 1;
+	-webkit-flex-shrink: 0;
+	-ms-flex-negative: 0;
+	flex-shrink: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+
+.progress_bar > .progress_list {
+	z-index: 39;
+	height: 4px;
+	position: relative;
+	pointer-events: none;
+	-webkit-box-flex: 1;
+	-webkit-flex-grow: 1;
+	-moz-box-flex: 1;
+	-ms-flex-positive: 1;
+	flex-grow: 1;
+	width: 100%;
+	-webkit-transition: height 0.1s cubic-bezier(0.4, 0, 1, 1);
+	transition: height 0.1s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.progress_bar > .progress_list > :is(.progress_line, .progress_amount) {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	top: 0;
+	height: 100%;
+}
+
+.progress_bar > .progress_list > .progress_line {
+	background-color: rgba(54, 54, 54, 0.2);
+	z-index: 548;
+	width: 100%;
+}
+
+.progress_bar > .progress_list > .progress_amount {
+	background-color: #318cfc;
+	z-index: 551;
+	width: 0;
+}
+
+.progress_bar > .progress_list > .progress_indicator {
+	min-width: 12px !important;
+	width: 12px !important;
+	max-width: 12px !important;
+	min-height: 12px !important;
+	height: 12px !important;
+	max-height: 12px !important;
+	border-radius: 10rem;
+	position: absolute;
+	background-color: #318cfc;
+	z-index: 551;
+	left: 0;
+	top: 50%;
+	transform: translate(-6px, -50%);
+	opacity: 1;
+	/* transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) !important; */
+	/* box-shadow: rgb(0 0 0 / 35%) 3px 6px 6px; */
 }
 
 .audio_times {
