@@ -24,6 +24,12 @@ aside.sidebar {
 	transition-timing-function: ease-out;
 }
 
+aside.sidebar.isOpen {
+	opacity: 1;
+	visibility: visible;
+	transform: translate3d(0, 0, 0);
+}
+
 @media (min-width: 634px) {
 	aside.sidebar {
 		opacity: 1;
@@ -297,6 +303,7 @@ main#root > div#app {
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 320px;
+	min-width: 320px;
 }
 
 main#root > div#app.noShadow {

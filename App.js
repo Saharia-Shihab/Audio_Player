@@ -95,6 +95,62 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             New('span', {
                 onclick: function () {
                     // document.querySelector('aside.sidebar')
+                    const isMobile = document.body.matches('[class="isMobile"]');
+                    if (isMobile) {
+                        const OverLay = New('div', {
+                            id: "isOverLay",
+                            style: {
+                                position: 'fixed',
+                                top: '0px',
+                                left: '0px',
+                                bottom: '0px',
+                                right: '0px',
+                                width: '100vw',
+                                height: '100vh',
+                                backgroundColor: '#0009',
+                                transition: 'opacity 200ms',
+                                opacity: '0',
+                                zIndex: '-1',
+                                visibility: 'hidden',
+                                cursor: 'default'
+                            }
+                        });
+                        document.body.append(OverLay);
+                        document.querySelector('aside.sidebar').classList.add('isOpen');
+                        OverLay.animate([{
+                            opacity: '0',
+                            visibility: 'hidden',
+                            zIndex: '-1'
+                        }, {
+                            opacity: '1',
+                            visibility: 'visible',
+                            zIndex: '138'
+                        }], {
+                            duration: 225,
+                            easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+                            fill: 'forwards'
+                        });
+                        OverLay.addEventListener('click', () => {
+                            document.querySelector('aside.sidebar').classList.remove('isOpen');
+                            OverLay.animate([{
+                                opacity: '1',
+                                visibility: 'visible',
+                                zIndex: '138'
+                            }, {
+                                opacity: '0',
+                                visibility: 'hidden',
+                                zIndex: '-1'
+                            }], {
+                                duration: 225,
+                                easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+                                fill: 'forwards'
+                            }).addEventListener("finish", () => {
+                                OverLay.remove();
+                            });
+                        })
+                    } else {
+
+                    }
                 }
             },
                 Svg('svg', {
@@ -155,6 +211,8 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
         durationTime.innerHTML = `${await Music(_src, "duration")}`;
 
         await Music(_src, "").then(() => {
+            document.querySelector('aside.sidebar').classList.remove('isOpen');
+            document.querySelector('#isOverLay') ? document.querySelector('#isOverLay').remove() : null;
             Array.from(document.querySelectorAll('.sidebar_item.isActive')).forEach(elements => {
                 elements.classList.remove('isActive');
             });

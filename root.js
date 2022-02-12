@@ -91,6 +91,8 @@ Array.from(["load", "resize"]).forEach((_event) => {
             document.body.classList.add('isMobile');
         } else {
             document.body.classList.remove('isMobile');
+            document.querySelector('aside.sidebar').classList.remove('isOpen');
+            document.querySelector('#isOverLay') ? document.querySelector('#isOverLay').remove() : null;
         }
     });
 });
