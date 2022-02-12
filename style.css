@@ -602,17 +602,21 @@ main#root > div#app > .header {
 	left: 0px;
 	right: 0px;
 	top: 0px;
+	bottom: 0px;
 	z-index: 100;
 	background-color: #fff;
 	min-width: 320px;
 	width: 320px;
 	max-width: 320px;
-	min-height: 0%;
-	height: 0%;
-	max-height: 0%;
+	min-height: 100%;
+	height: 100%;
+	max-height: 100%;
 	opacity: 0;
 	border-radius: 8px;
-	overflow: hidden;
+	transform: scaleY(0);
+	transform-origin: top;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .info_container > .info_texts {
@@ -639,6 +643,7 @@ main#root > div#app > .header {
 	height: 48px;
 	max-height: 48px;
 	background-color: #f2f6fc;
+	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
 	z-index: 15;
@@ -710,8 +715,6 @@ main#root > div#app > .header {
 	padding: 12px 24px;
 	letter-spacing: 0.00625rem !important;
 	font-family: "Google Sans", Roboto, Arial, sans-serif !important;
-	max-height: calc(100% - 48px) !important;
-	overflow: auto;
 }
 
 .info_container > .info_body > #Info_Title {

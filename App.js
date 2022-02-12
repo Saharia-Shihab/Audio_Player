@@ -271,18 +271,14 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                                 id: 'Close_Info',
                                 onclick: function () {
                                     rootApp.querySelector('#Time_Matters').animate([{
-                                        minHeight: "100%",
-                                        height: "100%",
-                                        maxHeight: "100%",
+                                        transform: 'scaleY(1)',
                                         opacity: 1
                                     }, {
-                                        minHeight: "0%",
-                                        height: "0%",
-                                        maxHeight: "0%",
+                                        transform: 'scaleY(0)',
                                         opacity: 0
                                     }], {
-                                        duration: 240,
-                                        easing: "linear",
+                                        duration: 225,
+                                        easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
                                         fill: 'forwards'
                                     }).addEventListener('finish', () => {
                                         rootApp.querySelector('#Time_Matters').remove();
@@ -319,18 +315,14 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                     )
                 );
                 rootApp.querySelector('#Time_Matters').animate([{
-                    minHeight: "0%",
-                    height: "0%",
-                    maxHeight: "0%",
+                    transform: 'scaleY(0)',
                     opacity: 0,
                 }, {
-                    minHeight: "100%",
-                    height: "100%",
-                    maxHeight: "100%",
+                    transform: 'scaleY(1)',
                     opacity: 1
                 }], {
-                    duration: 240,
-                    easing: "linear",
+                    duration: 225,
+                    easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
                     fill: 'forwards'
                 });
             }
