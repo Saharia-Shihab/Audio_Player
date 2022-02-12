@@ -93,6 +93,9 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             ),
             'Playing Now...',
             New('span', {
+                style: {
+                    cursor: 'pointer',
+                },
                 onclick: function () {
                     // document.querySelector('aside.sidebar')
                     const isMobile = document.body.matches('[class="isMobile"]');
