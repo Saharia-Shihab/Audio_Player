@@ -29,7 +29,7 @@ function isObject(a) {
  * @param {String} tagName - The name of an element.
  * @param {{ [x: string]: any; }} Attributes - Set attribute or function on the element.
  * @param {...any?} Node
- * @returns {Element}
+ * @returns {SVGElement}
  */
 
 

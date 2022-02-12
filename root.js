@@ -85,19 +85,25 @@ const ReadyFunction = async () => {
     }
 }
 
+Array.from(["load", "resize"]).forEach((_event) => {
+    window.addEventListener(_event, () => {
+        if (document.body.clientWidth < 634) {
+            document.body.classList.add('isMobile');
+        } else {
+            document.body.classList.remove('isMobile');
+        }
+    });
+});
 
 /**
  * @param {string} _src
  */
-
 function Music(_src) {
     const NewMusic = new Audio(_src);
-    return new Promise((resolve, reject) => {
+    document.querySelector('.logs_fetching').innerHTML = `<svg viewBox="0 0 24 24" class="fetching" xmlns="http://www.w3.org/2000/svg"><path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/></svg>Fetching...`;
+    return new Promise((resolve) => {
         NewMusic.addEventListener('loadeddata', () => {
             resolve(reconvert(NewMusic.duration));
-        });
-        NewMusic.addEventListener('error', (e) => {
-            resolve(e);
         });
     });
 };

@@ -15,8 +15,21 @@ aside.sidebar {
 	height: 100%;
 	-webkit-box-shadow: 0 0 16px rgb(0 0 0 / 28%);
 	box-shadow: 0 0 16px rgb(0 0 0 / 28%);
-	overflow-y: auto;
 	overflow-x: hidden;
+	overflow-y: auto;
+	opacity: 0;
+	visibility: hidden;
+	transform: translate3d(-100%, 0, 0);
+	transition: visibility 275ms, opacity 275ms, transform 280ms;
+	transition-timing-function: ease-out;
+}
+
+@media (min-width: 634px) {
+	aside.sidebar {
+		opacity: 1;
+		visibility: visible;
+		transform: translate3d(0, 0, 0);
+	}
 }
 
 aside.sidebar > header.sidebar_header {
@@ -230,11 +243,11 @@ aside.sidebar
 }
 
 main#root {
-	min-width: calc(100% - 264px);
-	width: calc(100% - 264px);
-	max-width: calc(100% - 264px);
+	min-width: 100%;
+	width: 100%;
+	max-width: 100%;
+	margin-left: 0px;
 	min-height: 100%;
-	margin-left: 264px;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -moz-box;
@@ -250,6 +263,16 @@ main#root {
 	-moz-box-pack: center;
 	-ms-flex-pack: center;
 	justify-content: center;
+	transition: min-width 275ms, width 275ms, max-width 275ms, margin-left 280ms;
+	transition-timing-function: ease-out;
+}
+@media (min-width: 634px) {
+	main#root {
+		min-width: calc(100% - 264px);
+		width: calc(100% - 264px);
+		max-width: calc(100% - 264px);
+		margin-left: 264px;
+	}
 }
 
 main#root > div#app {
@@ -297,6 +320,21 @@ main#root > div#app > .header {
 	background-color: #fff;
 	box-shadow: 0 1px 0 rgb(6 6 7 / 10%), 0 1.5px 0 rgb(6 6 7 / 3%),
 		0 2px 0 rgb(6 6 7 / 3%);
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	-webkit-justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
 }
 
 .thumbnail_container {
@@ -614,7 +652,7 @@ main#root > div#app > .header {
 	opacity: 0;
 	border-radius: 8px;
 	transform: scaleY(0);
-	transform-origin: top;
+	transform-origin: bottom;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
