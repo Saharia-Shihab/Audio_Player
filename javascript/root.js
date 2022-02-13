@@ -11,6 +11,7 @@ const Elements = {
     rootApp: document.querySelector('#app'),
 
     Aside: document.querySelector('aside.sidebar'),
+    LoopButton: document.getElementById('LoopButton'),
     SidebarContainer: document.querySelector('.sidebar_container'),
     // For Player
     MusicDiv: document.getElementsByTagName('audio')[0],
@@ -80,7 +81,6 @@ const ReadyFunction = async () => {
                 )
             );
         });
-
         Elements.SidebarContainer.append(NewList);
     } catch (error) {
         document.body.innerHTML = `${error}`;
@@ -125,5 +125,18 @@ window.addEventListener('load', () => {
         // @ts-ignore
         document.querySelectorAll('.sidebar_item')[Active].click();
         ripple();
+
+        Elements.LoopButton.addEventListener('click', function () {
+            const _Loop = document.body.matches('[loop]');
+            /** @type {SVGPathElement} */
+            const svgPath = this.querySelector('svg > path');
+            if (!_Loop) {
+                document.body.setAttribute("loop", "");
+                svgPath.setAttributeNS(null, "d", 'M17,17H7V14L3,18L7,22V19H19V13H17M7,7H17V10L21,6L17,2V5H5V11H7V7Z');
+            } else {
+                document.body.removeAttribute("loop");
+                svgPath.setAttributeNS(null, "d", 'M2,5.27L3.28,4L20,20.72L18.73,22L15.73,19H7V22L3,18L7,14V17H13.73L7,10.27V11H5V8.27L2,5.27M17,13H19V17.18L17,15.18V13M17,5V2L21,6L17,10V7H8.82L6.82,5H17Z');
+            }
+        });
     });
 });

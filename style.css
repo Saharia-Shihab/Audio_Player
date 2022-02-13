@@ -44,26 +44,9 @@ aside.sidebar > header.sidebar_header {
 	top: 0px;
 	z-index: 1;
 	margin-bottom: 8px;
-	font-family: "Google Sans", Roboto, Arial, sans-serif;
-	font-weight: 500;
-	padding: 0 16px;
-	font-size: 24px;
-	line-height: 1.5 !important;
 	color: #47bf7f !important;
-	min-height: 48px;
-	height: 48px;
-	max-height: 48px;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	background-color: #fff;
-	box-shadow: 0 1px 0 rgba(6, 6, 7, 0.1), 0 1.5px 0 rgba(6, 6, 7, 0.025),
-		0 2px 0 rgba(6, 6, 7, 0.025);
 }
-aside.sidebar > header.sidebar_header > svg {
+/* aside.sidebar > header.sidebar_header > svg {
 	min-width: 32px;
 	width: 32px;
 	max-width: 32px;
@@ -71,7 +54,7 @@ aside.sidebar > header.sidebar_header > svg {
 	height: 32px;
 	max-height: 32px;
 	fill: #47bf7f !important;
-}
+} */
 
 aside.sidebar > .sidebar_container {
 	display: -webkit-flex;
@@ -313,6 +296,7 @@ main#root > div#app.noShadow {
 	box-shadow: none !important;
 }
 
+aside.sidebar > header.sidebar_header,
 main#root > div#app > .header {
 	position: -webkit-sticky;
 	position: sticky;
@@ -320,9 +304,6 @@ main#root > div#app > .header {
 	z-index: 1;
 	margin-bottom: 8px;
 	padding: 0px 8px;
-	/* background-color: #fff;
-	box-shadow: 0 1px 0 rgb(6 6 7 / 10%), 0 1.5px 0 rgb(6 6 7 / 3%),
-		0 2px 0 rgb(6 6 7 / 3%); */
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -moz-box;
@@ -346,6 +327,8 @@ main#root > div#app > .header {
 		0 2px 0 rgb(6 6 7 / 3%);
 }
 
+aside.sidebar > header.sidebar_header > .headerButton,
+aside.sidebar > header.sidebar_header > .headerLogo ,
 main#root > div#app > .header > .headerButton,
 main#root > div#app > .header > .headerLogo {
 	min-height: 48px;
@@ -357,6 +340,8 @@ main#root > div#app > .header > .headerLogo {
 	padding: 8px 8px;
 	border-radius: 10rem;
 }
+
+aside.sidebar > header.sidebar_header > .headerText,
 main#root > div#app > .header > .headerText {
 	min-height: 48px;
 	max-height: 48px;
@@ -365,6 +350,12 @@ main#root > div#app > .header > .headerText {
 	font-weight: 600;
 	font-size: 24px;
 	line-height: 48px !important;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    white-space: nowrap !important;
+    max-width: 100%;
 }
 
 .thumbnail_container {
