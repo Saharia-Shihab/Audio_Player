@@ -810,21 +810,11 @@ main#root > div#app > .header > .headerText {
 	z-index: 1;
 	font-family: "Google Sans", Roboto, Arial, sans-serif;
 	font-weight: 500;
-	padding: 0 16px;
+	padding: 16px 24px;
 	font-size: 16px;
 	line-height: 1.5 !important;
 	color: #26e47f !important;
-	min-height: 48px;
-	height: 48px;
-	max-height: 48px;
-	border-radius: 4px;
 	width: fit-content;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
 	background-color: #e8f0fe;
 	z-index: 10010;
 	box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%),
@@ -833,7 +823,7 @@ main#root > div#app > .header > .headerText {
 }
 
 .logs_fetching > svg {
-	margin-right: 12px;
+	margin-right: 16px;
 }
 
 .logs_fetching:empty {

@@ -230,6 +230,22 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             document.querySelectorAll('.sidebar_item')[index].classList.add('isActive');
             localStorage.setItem('Default', `${index}`);
             MusicPlayer.setAttribute('src', _src);
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: SongName,
+                    artist: Artist,
+                    album: Album,
+                    artwork: [
+                        // { src: 'https://dummyimage.com/96x96', sizes: '96x96', type: 'image/png' },
+                        // { src: 'https://dummyimage.com/128x128', sizes: '128x128', type: 'image/png' },
+                        // { src: 'https://dummyimage.com/192x192', sizes: '192x192', type: 'image/png' },
+                        // { src: 'https://dummyimage.com/256x256', sizes: '256x256', type: 'image/png' },
+                        // { src: 'https://dummyimage.com/384x384', sizes: '384x384', type: 'image/png' },
+                        // { src: 'https://dummyimage.com/512x512', sizes: '512x512', type: 'image/png' },
+                    ]
+                });
+            }
+
         });
 
         MusicPlayer.addEventListener('timeupdate', () => {
@@ -254,6 +270,13 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 if (playPromise !== undefined) {
                     playPromise.then(_ => {
                         document.querySelector('.logs_fetching').innerHTML = ``;
+                        if ('setPositionState' in navigator.mediaSession) {
+                            navigator.mediaSession.setPositionState({
+                                duration: MusicPlayer.duration,
+                                playbackRate: MusicPlayer.playbackRate,
+                                position: MusicPlayer.currentTime
+                            });
+                        }
                     }).catch(err => {
                         document.querySelector('.logs_fetching').innerHTML = `${err}...`;
                     });
@@ -309,7 +332,6 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 })
             )
         );
-
         const PlayPauseButton = New('button', {
             class: 'ripple_effect',
             id: 'PlayPauseButton',
@@ -352,6 +374,12 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 })
             )
         );
+        navigator.mediaSession.setActionHandler('previoustrack', function () {
+            PreviousButton.click();
+        });
+        navigator.mediaSession.setActionHandler('nexttrack', function () {
+            NextButton.click();
+        });
         const InfoButton = New('button', {
             class: 'ripple_effect',
             id: 'InfoButton',
