@@ -4,7 +4,6 @@ import ripple from './bin/ripple.js';
 import MetaData from './MetaData.js';
 const _Length = MetaData.length;
 
-
 /** @type {HTMLDivElement} */
 const rootApp = document.querySelector('#app');
 
@@ -34,7 +33,7 @@ function reconvert(_Time) {
 function Music(_src, DurOrCur) {
     const NewMusic = new Audio(_src);
     return new Promise(function (resolve) {
-        NewMusic.addEventListener('loadeddata', () => {
+        NewMusic.addEventListener('loadedmetadata', () => {
             if (DurOrCur === "duration") {
                 resolve(reconvert(NewMusic.duration));
             } else if (DurOrCur === "current") {
@@ -231,21 +230,20 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             localStorage.setItem('Default', `${index}`);
             MusicPlayer.setAttribute('src', _src);
             if ('mediaSession' in navigator) {
+                const mqdefault = Image.replace('maxresdefault', 'mqdefault');
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: SongName,
                     artist: Artist,
                     album: Album,
                     artwork: [
-                        // { src: 'https://dummyimage.com/96x96', sizes: '96x96', type: 'image/png' },
-                        // { src: 'https://dummyimage.com/128x128', sizes: '128x128', type: 'image/png' },
-                        // { src: 'https://dummyimage.com/192x192', sizes: '192x192', type: 'image/png' },
-                        // { src: 'https://dummyimage.com/256x256', sizes: '256x256', type: 'image/png' },
-                        // { src: 'https://dummyimage.com/384x384', sizes: '384x384', type: 'image/png' },
-                        // { src: 'https://dummyimage.com/512x512', sizes: '512x512', type: 'image/png' },
+                        {
+                            src: mqdefault,
+                            sizes: "320x180",
+                            type: "image/jpeg"
+                        }
                     ]
                 });
             }
-
         });
 
         MusicPlayer.addEventListener('timeupdate', () => {
@@ -263,7 +261,7 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             currentTime.innerHTML = `${reconvert(Number(MusicPlayer.currentTime.toFixed(0)))}`;
         });
 
-        MusicPlayer.addEventListener('loadeddata', () => {
+        MusicPlayer.addEventListener('loadedmetadata', () => {
             document.querySelector('.logs_fetching').innerHTML = ``;
             if (_isPlaying === true) {
                 const playPromise = MusicPlayer.play();

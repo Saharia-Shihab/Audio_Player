@@ -3,7 +3,7 @@
  * @returns {String} - `URL` of the thumbnail of the song...
  */
 function img(_id) {
-    return `https://i1.ytimg.com/vi/${_id}/sddefault.jpg`
+    return `https://i1.ytimg.com/vi/${_id}/maxresdefault.jpg`
 }
 
 /**
