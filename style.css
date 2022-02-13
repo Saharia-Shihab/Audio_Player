@@ -328,7 +328,7 @@ main#root > div#app > .header {
 }
 
 aside.sidebar > header.sidebar_header > .headerButton,
-aside.sidebar > header.sidebar_header > .headerLogo ,
+aside.sidebar > header.sidebar_header > .headerLogo,
 main#root > div#app > .header > .headerButton,
 main#root > div#app > .header > .headerLogo {
 	min-height: 48px;
@@ -350,12 +350,12 @@ main#root > div#app > .header > .headerText {
 	font-weight: 600;
 	font-size: 24px;
 	line-height: 48px !important;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    white-space: normal;
-    overflow: hidden;
-    white-space: nowrap !important;
-    max-width: 100%;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	white-space: normal;
+	overflow: hidden;
+	white-space: nowrap !important;
+	max-width: 100%;
 }
 
 .thumbnail_container {
