@@ -115,7 +115,7 @@ function Music(_src) {
 window.addEventListener('load', () => {
     localStorage.removeItem("_isPlaying");
     ReadyFunction().then((value) => {
-        Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src, _id }, index) => {
+        Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src }, index) => {
             const DurPlace = Elements.SidebarContainer.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info');
             DurPlace.innerHTML = `${await Music(_src)}`;
         });
