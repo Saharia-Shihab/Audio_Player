@@ -1,5 +1,6 @@
 import New from './bin/newElem.js';
 import Svg from './bin/newSVG.js';
+import ripple from './bin/ripple.js';
 import MetaData from './MetaData.js';
 const _Length = MetaData.length;
 
@@ -348,75 +349,84 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
         const InfoButton = New('button', {
             class: 'ripple_effect',
             id: 'InfoButton',
-            onclick: function () {
-                rootApp.append(
-                    New('div', {
-                        class: 'info_container',
-                        id: 'Time_Matters'
-                    },
-                        New('div', {
-                            class: 'info_texts'
-                        },
-                            New('span', {
-                                class: 'info_icon'
+            onclick: async function () {
+                const Elem = async () => {
+                    try {
+                        rootApp.append(
+                            New('div', {
+                                class: 'info_container',
+                                id: 'Time_Matters'
                             },
-                                Svg('svg', {
-                                    viewBox: '0 0 24 24'
+                                New('div', {
+                                    class: 'info_texts'
                                 },
-                                    Svg('path', {
-                                        d: 'M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z'
-                                    })
-                                )
-                            ),
-                            New('span', { class: 'texts_text' }, 'Info...'),
-                            New('span', {
-                                class: 'info_icon ripple_effect',
-                                id: 'Close_Info',
-                                onclick: function () {
-                                    rootApp.querySelector('#Time_Matters').animate([{
-                                        transform: 'scaleY(1)',
-                                        opacity: 1
-                                    }, {
-                                        transform: 'scaleY(0)',
-                                        opacity: 0
-                                    }], {
-                                        duration: 225,
-                                        easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
-                                        fill: 'forwards'
-                                    }).addEventListener('finish', () => {
-                                        rootApp.querySelector('#Time_Matters').remove();
-                                    });
-                                }
-                            },
-                                Svg('svg', {
-                                    viewBox: '0 0 24 24'
+                                    New('span', {
+                                        class: 'info_icon'
+                                    },
+                                        Svg('svg', {
+                                            viewBox: '0 0 24 24'
+                                        },
+                                            Svg('path', {
+                                                d: 'M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z'
+                                            })
+                                        )
+                                    ),
+                                    New('span', { class: 'texts_text' }, 'Info...'),
+                                    New('span', {
+                                        class: 'info_icon ripple_effect',
+                                        id: 'Close_Info',
+                                        onclick: function () {
+                                            rootApp.querySelector('#Time_Matters').animate([{
+                                                transform: 'scaleY(1)',
+                                                opacity: 1
+                                            }, {
+                                                transform: 'scaleY(0)',
+                                                opacity: 0
+                                            }], {
+                                                duration: 225,
+                                                easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+                                                fill: 'forwards'
+                                            }).addEventListener('finish', () => {
+                                                rootApp.querySelector('#Time_Matters').remove();
+                                            });
+                                        }
+                                    },
+                                        Svg('svg', {
+                                            viewBox: '0 0 24 24'
+                                        },
+                                            Svg('path', {
+                                                d: 'M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z'
+                                            })
+                                        )
+                                    )
+                                ),
+                                New('div', {
+                                    class: "info_body"
                                 },
-                                    Svg('path', {
-                                        d: 'M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z'
-                                    })
+                                    New('img', {
+                                        src: Image, style: {
+                                            borderRadius: "8px",
+                                            marginBottom: "8px"
+                                        }
+                                    }),
+                                    New('div', { id: 'Info_Title' }, `Song: ${SongName}`),
+                                    New('div', { id: 'Info_Artist' }, `Artist: ${Artist}`),
+                                    New('div', {
+                                        id: 'Info_Album', style: {
+                                            marginBottom: "2px"
+                                        }
+                                    }, `Album: ${Album}`),
+                                    New('div', { id: 'Info_Released' }, `Released: ${Released}`)
                                 )
                             )
-                        ),
-                        New('div', {
-                            class: "info_body"
-                        },
-                            New('img', {
-                                src: Image, style: {
-                                    borderRadius: "8px",
-                                    marginBottom: "8px"
-                                }
-                            }),
-                            New('div', { id: 'Info_Title' }, `Song: ${SongName}`),
-                            New('div', { id: 'Info_Artist' }, `Artist: ${Artist}`),
-                            New('div', {
-                                id: 'Info_Album', style: {
-                                    marginBottom: "2px"
-                                }
-                            }, `Album: ${Album}`),
-                            New('div', { id: 'Info_Released' }, `Released: ${Released}`)
-                        )
-                    )
-                );
+                        );
+                    } catch (error) {
+
+                    }
+                };
+                await Elem().then(() => {
+                    ripple();
+                });
                 rootApp.querySelector('#Time_Matters').animate([{
                     transform: 'scaleY(0)',
                     opacity: 0,
@@ -443,34 +453,14 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             /** @type {SVGPathElement} */
             const svgPath = PlayPauseButton.querySelector('svg > path');
             if (!MusicPlayer.paused) {
-                PlayPauseButton.innerHTML = "";
-                PlayPauseButton.append(
-                    Svg('svg', { viewBox: "0 0 24 24" },
-                        Svg('path', {
-                            d: "M14,19H18V5H14M6,19H10V5H6V19Z",
-                        })
-                    )
-                );
+                svgPath.setAttributeNS(null, 'd', "M14,19H18V5H14M6,19H10V5H6V19Z");
             } else if (MusicPlayer.ended) {
                 if (MusicPlayer.loop === false) {
-                    PlayPauseButton.innerHTML = "";
-                    PlayPauseButton.append(
-                        Svg('svg', { viewBox: "0 0 24 24" },
-                            Svg('path', {
-                                d: "M12 5V2.21c0-.45-.54-.67-.85-.35l-3.8 3.79c-.2.2-.2.51 0 .71l3.79 3.79c.32.31.86.09.86-.36V7c3.73 0 6.68 3.42 5.86 7.29-.47 2.27-2.31 4.1-4.57 4.57-3.57.75-6.75-1.7-7.23-5.01-.07-.48-.49-.85-.98-.85-.6 0-1.08.53-1 1.13.62 4.39 4.8 7.64 9.53 6.72 3.12-.61 5.63-3.12 6.24-6.24C20.84 9.48 16.94 5 12 5z",
-                            })
-                        )
-                    );
+                    // svgPath.setAttributeNS(null, 'd', "M12 5V2.21c0-.45-.54-.67-.85-.35l-3.8 3.79c-.2.2-.2.51 0 .71l3.79 3.79c.32.31.86.09.86-.36V7c3.73 0 6.68 3.42 5.86 7.29-.47 2.27-2.31 4.1-4.57 4.57-3.57.75-6.75-1.7-7.23-5.01-.07-.48-.49-.85-.98-.85-.6 0-1.08.53-1 1.13.62 4.39 4.8 7.64 9.53 6.72 3.12-.61 5.63-3.12 6.24-6.24C20.84 9.48 16.94 5 12 5z");
+                    NextButton.click();
                 }
             } else {
-                PlayPauseButton.innerHTML = "";
-                PlayPauseButton.append(
-                    Svg('svg', { viewBox: "0 0 24 24" },
-                        Svg('path', {
-                            d: "M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z",
-                        })
-                    )
-                );
+                svgPath.setAttributeNS(null, 'd', "M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z")
             }
         };
         MusicPlayer.addEventListener('play', PLAY_PAUSE_UPDATE);
