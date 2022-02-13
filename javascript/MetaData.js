@@ -116,6 +116,14 @@ export default [
         Image: img('rtDw-_1Gh0Q'),
         _src: 'https://cdn.discordapp.com/attachments/941340630792171540/941727092243054602/y2mate.com_-_Sochta_Houn_Remix_Dekhte_Ustad_Nusrat_Fateh_Ali_Khan_A1_MelodyMaster_OSA_Official_HD_Video.mp3',
         _id: NewID(12)
+    }, {
+        Name: "Laaree Chootee ft. Tejas R.H",
+        Artist: "WORMONO",
+        Album: "Laaree Chootee",
+        Released: 2021,
+        Image: img('Ub-LX8S__GA'),
+        _src: 'https://cdn.discordapp.com/attachments/941340630792171540/942273692245852160/y2mate.com_-_Laaree_Chootee_Call_WORMONO_feat_Tejas_RH_Lofi_Remake_Bollywood_Lofi.mp3',
+        _id: NewID(12)
     }
 ].sort(function (a, b) {
     if (a.Name < b.Name) { return -1; }

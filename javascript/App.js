@@ -1,5 +1,5 @@
-import New from './newElem.js';
-import Svg from './newSVG.js';
+import New from './bin/newElem.js';
+import Svg from './bin/newSVG.js';
 import MetaData from './MetaData.js';
 const _Length = MetaData.length;
 
@@ -93,6 +93,7 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             ),
             'Playing Now...',
             New('span', {
+                class: 'ripple_effect',
                 style: {
                     cursor: 'pointer',
                 },
