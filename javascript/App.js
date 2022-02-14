@@ -25,23 +25,14 @@ function reconvert(_Time) {
     }
 }
 
-
 /**
  * @param {string} _src
- * @param {string} DurOrCur
+ * @returns {Promise<HTMLAudioElement>}
  */
-function Music(_src, DurOrCur) {
+function Music(_src) {
     const NewMusic = new Audio(_src);
     return new Promise(function (resolve) {
-        NewMusic.addEventListener('loadedmetadata', () => {
-            if (DurOrCur === "duration") {
-                resolve(reconvert(NewMusic.duration));
-            } else if (DurOrCur === "current") {
-                resolve(reconvert(NewMusic.currentTime));
-            } else {
-                resolve('!');
-            }
-        });
+        NewMusic.addEventListener('loadeddata', () => resolve(NewMusic));
     });
 };
 
@@ -216,11 +207,7 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
         const durationTime = New('div', {
             class: 'durationTime'
         });
-
-        currentTime.innerHTML = `${await Music(_src, "current")}`;
-        durationTime.innerHTML = `${await Music(_src, "duration")}`;
-
-        await Music(_src, "").then(() => {
+        await Music(_src).then(function (_Music) {
             document.querySelector('aside.sidebar').classList.remove('isOpen');
             document.querySelector('#isOverLay') ? document.querySelector('#isOverLay').remove() : null;
             Array.from(document.querySelectorAll('.sidebar_item.isActive')).forEach(elements => {
@@ -228,6 +215,8 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             });
             document.querySelectorAll('.sidebar_item')[index].classList.add('isActive');
             localStorage.setItem('Default', `${index}`);
+            currentTime.innerHTML = `${reconvert(_Music.currentTime)}`;
+            durationTime.innerHTML = `${reconvert(_Music.duration)}`;
             MusicPlayer.setAttribute('src', _src);
         });
 

@@ -101,29 +101,26 @@ Array.from(["load", "resize"]).forEach((_event) => {
 
 /**
  * @param {string} _src
+ * @returns {Promise<HTMLAudioElement>}
  */
 function Music(_src) {
     const NewMusic = new Audio(_src);
     document.querySelector('.logs_fetching').innerHTML = `<svg viewBox="0 0 24 24" class="fetching" xmlns="http://www.w3.org/2000/svg"><path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/></svg>Fetching...`;
     return new Promise((resolve) => {
-        NewMusic.addEventListener('loadeddata', () => {
-            resolve(reconvert(NewMusic.duration));
-        });
+        NewMusic.addEventListener('loadeddata', () => resolve(NewMusic));
     });
 };
 
 window.addEventListener('load', () => {
-    localStorage.removeItem("_isPlaying");
     ReadyFunction().then((value) => {
-        Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src }, index) => {
-            const DurPlace = Elements.SidebarContainer.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info');
-            DurPlace.innerHTML = `${await Music(_src)}`;
-        });
-    }).finally(() => {
         /** @type {number} - 0 to `MetaData.length` */
         const Active = Number(localStorage.getItem('Default')) || 0;
         // @ts-ignore
         document.querySelectorAll('.sidebar_item')[Active].click();
+        Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src }, index) => {
+            await Music(_src).then((_Music) => document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = `${reconvert(_Music.duration)}`);
+        });
+    }).finally(() => {
         ripple();
 
         Elements.LoopButton.addEventListener('click', function () {
