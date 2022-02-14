@@ -449,11 +449,11 @@ main#root > div#app > .header > .headerText {
 	min-height: 12px;
 	max-height: 12px;
 	width: 100%;
-	margin-bottom: 4px;
+	/* margin-bottom: 4px; */
 	z-index: 31;
 	outline: none;
 	height: 12px;
-	padding: 0px 16px;
+	/* padding: 0px 16px; */
 	cursor: pointer;
 	-webkit-box-flex: 1;
 	-webkit-flex-grow: 1;
@@ -698,10 +698,6 @@ main#root > div#app > .header > .headerText {
 	-moz-box-pack: start;
 	-ms-flex-pack: start;
 	justify-content: flex-start;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 	min-height: 64px;
 	height: 64px;
 	max-height: 64px;

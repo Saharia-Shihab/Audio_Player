@@ -38,6 +38,24 @@ function Music(_src) {
 
 
 
+
+/** @type {number} */
+let _OffSetLeft;
+
+/** @type {number} */
+let _Duration;
+
+
+
+/** @type {Boolean} */
+let ProgressDrag;
+Array.from(["load", "resize"]).forEach((_event) => {
+    window.addEventListener(_event, () => {
+        _OffSetLeft = Number(rootApp.offsetLeft + 16);
+    });
+});
+
+
 let _isPlaying = false;
 /**
  * @param {HTMLAudioElement} MusicPlayer
@@ -48,7 +66,7 @@ let _isPlaying = false;
  * @param {string} Image
  * @param {string} _src
  * @param {number} index
- * @returns {Promise}
+ * @returns {Promise<DocumentFragment>}
  */
 
 export default function (MusicPlayer, SongName, Artist, Album, Released, Image, _src, index) {
@@ -120,11 +138,9 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                         document.querySelector('aside.sidebar').classList.add('isOpen');
                         OverLay.animate([{
                             opacity: '0',
-                            visibility: 'hidden',
                             zIndex: '-1'
                         }, {
                             opacity: '1',
-                            visibility: 'visible',
                             zIndex: '138'
                         }], {
                             duration: 225,
@@ -135,11 +151,9 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                             document.querySelector('aside.sidebar').classList.remove('isOpen');
                             OverLay.animate([{
                                 opacity: '1',
-                                visibility: 'visible',
                                 zIndex: '138'
                             }, {
                                 opacity: '0',
-                                visibility: 'hidden',
                                 zIndex: '-1'
                             }], {
                                 duration: 225,
@@ -200,7 +214,6 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
         const ProgressBar = New('div', {
             class: 'progress_bar',
         }, progressList);
-
         const currentTime = New('div', {
             class: 'currentTime'
         });
@@ -218,6 +231,22 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             currentTime.innerHTML = `${reconvert(_Music.currentTime)}`;
             durationTime.innerHTML = `${reconvert(_Music.duration)}`;
             MusicPlayer.setAttribute('src', _src);
+            _Duration = _Music.duration;
+            if ('mediaSession' in navigator) {
+                const mqdefault = Image.replace('maxresdefault', 'mqdefault');
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: SongName,
+                    artist: Artist,
+                    album: Album,
+                    artwork: [
+                        {
+                            src: mqdefault,
+                            sizes: "320x180",
+                            type: "image/jpeg"
+                        }
+                    ]
+                });
+            }
         });
 
         MusicPlayer.addEventListener('timeupdate', () => {
@@ -241,21 +270,6 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 await MusicPlayer.play()
                     .then(_ => {
                         document.querySelector('.logs_fetching').innerHTML = ``;
-                        if ('mediaSession' in navigator) {
-                            const mqdefault = Image.replace('maxresdefault', 'mqdefault');
-                            navigator.mediaSession.metadata = new MediaMetadata({
-                                title: SongName,
-                                artist: Artist,
-                                album: Album,
-                                artwork: [
-                                    {
-                                        src: mqdefault,
-                                        sizes: "320x180",
-                                        type: "image/jpeg"
-                                    }
-                                ]
-                            });
-                        }
                         /* if ('setPositionState' in navigator.mediaSession) {
                             navigator.mediaSession.setActionHandler('seekbackward', null);
                             navigator.mediaSession.setActionHandler('seekforward', null);
@@ -442,9 +456,7 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                                 )
                             )
                         );
-                    } catch (error) {
-
-                    }
+                    } catch (error) { }
                 };
                 await Elem().then(() => {
                     ripple();
@@ -497,6 +509,77 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
         MusicPlayer.addEventListener('pause', PLAY_PAUSE_UPDATE);
         MusicPlayer.addEventListener('ended', PLAY_PAUSE_UPDATE);
 
+        /**
+         * @param {MouseEvent | TouchEvent} e
+         */
+        function Seeking(e) {
+            let Mouse_TouchX;
+            if (e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel') {
+                // @ts-ignore
+                const evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
+                for (let index = 0; index < evt.touches.length; index++) {
+                    const Touch = evt.touches[index] || evt.changedTouches[index];
+                    Mouse_TouchX = Touch.clientX;
+                }
+            } else if (e.type == 'mousemove' || e.type == 'mousedown' || e.type == 'mouseup') {
+                // @ts-ignore
+                Mouse_TouchX = e.clientX;
+            }
+            if (Mouse_TouchX) {
+                let percentage;
+                const position = Mouse_TouchX - _OffSetLeft;
+                percentage = (100 * position) / ProgressBar.offsetWidth;
+                if (percentage >= 100) {
+                    percentage = 100;
+                }
+                if (percentage < 0) {
+                    percentage = 0;
+                }
+                progressAmount.style.width = `${percentage}%`;
+                progressIndicator.style.left = `${percentage}%`;
+                const seeked = Number(_Duration * (percentage / 100));
+                MusicPlayer.currentTime = seeked;
+            }
+        };
+
+        // For ProgressBar
+        document.addEventListener('mousedown', (event) => {
+            if (event.target === ProgressBar) {
+                ProgressDrag = true;
+                Seeking(event);
+            }
+        });
+        document.addEventListener("touchstart", function (event) {
+            if (event.target === ProgressBar) {
+                ProgressDrag = true;
+                Seeking(event);
+            }
+        });
+
+        
+        document.addEventListener('mousemove', function (event) {
+            ProgressDrag && Seeking(event);
+        });
+        document.addEventListener('touchmove', function (event) {
+            ProgressDrag && Seeking(event);
+        });
+
+
+
+        document.addEventListener('mouseup', function (event) {
+            if (ProgressDrag) {
+                ProgressDrag = false;
+                Seeking(event);
+            }
+        });
+
+        document.addEventListener('touchend', function (event) {
+            if (ProgressDrag) {
+                ProgressDrag = false;
+                Seeking(event);
+            }
+        });
+
         rootApp.innerHTML = '';
         rootApp.className = '';
         try {
@@ -505,7 +588,12 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 Header,
                 ThumbnailContainer,
                 BodyContainer,
-                ProgressBar,
+                New('div', {
+                    style: {
+                        padding: "0px 16px",
+                        marginBottom: "8px"
+                    }
+                }, ProgressBar),
                 AudioTimes,
                 New('div', { class: 'controls_container' },
                     RepeatButton,

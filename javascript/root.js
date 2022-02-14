@@ -9,13 +9,14 @@ const _Length = MetaData.length;
 const Elements = {
     /** @type {HTMLDivElement} */
     rootApp: document.querySelector('#app'),
-
     Aside: document.querySelector('aside.sidebar'),
     LoopButton: document.getElementById('LoopButton'),
     SidebarContainer: document.querySelector('.sidebar_container'),
     // For Player
     MusicDiv: document.getElementsByTagName('audio')[0],
 };
+
+
 /**
  * @param {number} _Time
  * @returns {string}
@@ -107,7 +108,7 @@ function Music(_src) {
     const NewMusic = new Audio(_src);
     document.querySelector('.logs_fetching').innerHTML = `<svg viewBox="0 0 24 24" class="fetching" xmlns="http://www.w3.org/2000/svg"><path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/></svg>Fetching...`;
     return new Promise((resolve) => {
-        NewMusic.addEventListener('loadeddata', () => resolve(NewMusic));
+        NewMusic.addEventListener('loadedmetadata', () => resolve(NewMusic));
     });
 };
 
@@ -130,12 +131,12 @@ window.addEventListener('load', () => {
             }
         });
         Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src }, index) => {
-            // await Music(_src).then((_Music) => document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = `${reconvert(_Music.duration)}`);
-            const NewMusic = new Audio(_src);
-            document.querySelector('.logs_fetching').innerHTML = `<svg viewBox="0 0 24 24" class="fetching" xmlns="http://www.w3.org/2000/svg"><path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/></svg>Fetching...`;
-            NewMusic.addEventListener('loadedmetadata', () => {
-                document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = reconvert(NewMusic.duration);
-            });
+            await Music(_src).then((_Music) => document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = `${reconvert(_Music.duration)}`);
+            // const NewMusic = new Audio(_src);
+            // document.querySelector('.logs_fetching').innerHTML = `<svg viewBox="0 0 24 24" class="fetching" xmlns="http://www.w3.org/2000/svg"><path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/></svg>Fetching...`;
+            // NewMusic.addEventListener('loadedmetadata', () => {
+            //     document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = reconvert(NewMusic.duration);
+            // });
         });
     }).finally(() => ripple());
 });
