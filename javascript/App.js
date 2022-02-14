@@ -130,7 +130,6 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                                 transition: 'opacity 200ms',
                                 opacity: '0',
                                 zIndex: '-1',
-                                visibility: 'hidden',
                                 cursor: 'default'
                             }
                         });
@@ -260,8 +259,8 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             if (duration > 0) {
                 progressAmount.style.width = `${(Percentage)}%`;
                 progressIndicator.style.left = `${(Percentage)}%`;
+                currentTime.innerHTML = `${reconvert(Number(MusicPlayer.currentTime.toFixed(0)))}`;
             }
-            currentTime.innerHTML = `${reconvert(Number(MusicPlayer.currentTime.toFixed(0)))}`;
         });
 
         MusicPlayer.addEventListener('loadedmetadata', async () => {
@@ -270,15 +269,6 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 await MusicPlayer.play()
                     .then(_ => {
                         document.querySelector('.logs_fetching').innerHTML = ``;
-                        /* if ('setPositionState' in navigator.mediaSession) {
-                            navigator.mediaSession.setActionHandler('seekbackward', null);
-                            navigator.mediaSession.setActionHandler('seekforward', null);
-                            navigator.mediaSession.setPositionState({
-                                duration: MusicPlayer.duration,
-                                playbackRate: MusicPlayer.playbackRate,
-                                position: MusicPlayer.currentTime
-                            });
-                        } */
                     }).catch(err => {
                         document.querySelector('.logs_fetching').innerHTML = `${err}...`;
                     });
@@ -555,24 +545,18 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 Seeking(event);
             }
         });
-
-        
         document.addEventListener('mousemove', function (event) {
             ProgressDrag && Seeking(event);
         });
         document.addEventListener('touchmove', function (event) {
             ProgressDrag && Seeking(event);
         });
-
-
-
         document.addEventListener('mouseup', function (event) {
             if (ProgressDrag) {
                 ProgressDrag = false;
                 Seeking(event);
             }
         });
-
         document.addEventListener('touchend', function (event) {
             if (ProgressDrag) {
                 ProgressDrag = false;
@@ -581,7 +565,6 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
         });
 
         rootApp.innerHTML = '';
-        rootApp.className = '';
         try {
             const _App = document.createDocumentFragment();
             _App.append(
