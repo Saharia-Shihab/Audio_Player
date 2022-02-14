@@ -144,7 +144,7 @@ export default [
         Artist: "Shayan Chowdhury Arnob",
         Album: "Hok Kolorob",
         Released: 2006,
-        Image: img('xDZy-lWBVkQ'),
+        Image: img('b-0wNuw4v7Q'),
         _src: 'https://cdn.discordapp.com/attachments/941340630792171540/942490094277890128/Arnob-_tomar_jonno256k.mp3'
     }, {
         Name: "Epitaph",
@@ -165,7 +165,7 @@ export default [
         Artist: "Shunno",
         Album: "Notun Srot",
         Released: 2008,
-        Image: img('qQrvEpGzRvA'),
+        Image: img('6TYUUKVfsx0'),
         _src: 'https://cdn.discordapp.com/attachments/941340630792171540/942490328055808010/Bedona_by_Shunno256k.mp3'
     }, {
         Name: "Benche Thakar Gaan",

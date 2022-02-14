@@ -112,17 +112,11 @@ function Music(_src) {
 };
 
 window.addEventListener('load', () => {
-    ReadyFunction().then((value) => {
-        /** @type {number} - 0 to `MetaData.length` */
+    ReadyFunction().then(function () {
+        /** @type {number} - 0 to `MusicList.length` */
         const Active = Number(localStorage.getItem('Default')) || 0;
         // @ts-ignore
         document.querySelectorAll('.sidebar_item')[Active].click();
-        Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src }, index) => {
-            await Music(_src).then((_Music) => document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = `${reconvert(_Music.duration)}`);
-        });
-    }).finally(() => {
-        ripple();
-
         Elements.LoopButton.addEventListener('click', function () {
             const _Loop = document.body.matches('[loop]');
             /** @type {SVGPathElement} */
@@ -135,5 +129,8 @@ window.addEventListener('load', () => {
                 svgPath.setAttributeNS(null, "d", 'M2,5.27L3.28,4L20,20.72L18.73,22L15.73,19H7V22L3,18L7,14V17H13.73L7,10.27V11H5V8.27L2,5.27M17,13H19V17.18L17,15.18V13M17,5V2L21,6L17,10V7H8.82L6.82,5H17Z');
             }
         });
-    });
+        Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src }, index) => {
+            await Music(_src).then((_Music) => document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = `${reconvert(_Music.duration)}`);
+        });
+    }).finally(() => ripple());
 });
