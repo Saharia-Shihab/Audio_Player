@@ -130,7 +130,12 @@ window.addEventListener('load', () => {
             }
         });
         Array.from(MetaData).forEach(async ({ Name, Artist, Album, Released, Image, _src }, index) => {
-            await Music(_src).then((_Music) => document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = `${reconvert(_Music.duration)}`);
+            // await Music(_src).then((_Music) => document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = `${reconvert(_Music.duration)}`);
+            const NewMusic = new Audio(_src);
+            document.querySelector('.logs_fetching').innerHTML = `<svg viewBox="0 0 24 24" class="fetching" xmlns="http://www.w3.org/2000/svg"><path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/></svg>Fetching...`;
+            NewMusic.addEventListener('loadedmetadata', () => {
+                document.querySelectorAll('.sidebar_item')[index].querySelector('.sidebar_info').innerHTML = reconvert(NewMusic.duration);
+            });
         });
     }).finally(() => ripple());
 });

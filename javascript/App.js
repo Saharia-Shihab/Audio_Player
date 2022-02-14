@@ -32,7 +32,7 @@ function reconvert(_Time) {
 function Music(_src) {
     const NewMusic = new Audio(_src);
     return new Promise(function (resolve) {
-        NewMusic.addEventListener('loadeddata', () => resolve(NewMusic));
+        NewMusic.addEventListener('loadedmetadata', () => resolve(NewMusic));
     });
 };
 
