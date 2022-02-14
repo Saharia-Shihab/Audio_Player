@@ -449,11 +449,9 @@ main#root > div#app > .header > .headerText {
 	min-height: 12px;
 	max-height: 12px;
 	width: 100%;
-	/* margin-bottom: 4px; */
 	z-index: 31;
 	outline: none;
 	height: 12px;
-	/* padding: 0px 16px; */
 	cursor: pointer;
 	-webkit-box-flex: 1;
 	-webkit-flex-grow: 1;
@@ -490,6 +488,12 @@ main#root > div#app > .header > .headerText {
 	transition: height 0.1s cubic-bezier(0.4, 0, 1, 1);
 }
 
+.progress_bar:hover > .progress_list {
+	height: 6px;
+	-webkit-transition: height 0.1s cubic-bezier(0, 0, 0.2, 1);
+	transition: height 0.1s cubic-bezier(0, 0, 0.2, 1);
+}
+
 .progress_bar > .progress_list > :is(.progress_line, .progress_amount) {
 	position: absolute;
 	left: 0;
@@ -524,9 +528,13 @@ main#root > div#app > .header > .headerText {
 	left: 0;
 	top: 50%;
 	transform: translate(-6px, -50%);
-	opacity: 1;
-	/* transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) !important; */
+	opacity: 0;
+	transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1) !important;
 	/* box-shadow: rgb(0 0 0 / 35%) 3px 6px 6px; */
+}
+
+.progress_bar:hover > .progress_list > .progress_indicator {
+	opacity: 1;
 }
 
 .audio_times {

@@ -42,21 +42,22 @@ function Music(_src) {
 /** @type {number} */
 let _OffSetLeft;
 
-/** @type {number} */
-let _Duration;
-
-
-
 /** @type {Boolean} */
 let ProgressDrag;
+
+/** @type {Boolean} */
+let _isLoaded = false;
+
+/** @type {Boolean} */
+let _isPlaying = false;
+
+
 Array.from(["load", "resize"]).forEach((_event) => {
     window.addEventListener(_event, () => {
         _OffSetLeft = Number(rootApp.offsetLeft + 16);
     });
 });
 
-
-let _isPlaying = false;
 /**
  * @param {HTMLAudioElement} MusicPlayer
  * @param {string} SongName
@@ -71,6 +72,7 @@ let _isPlaying = false;
 
 export default function (MusicPlayer, SongName, Artist, Album, Released, Image, _src, index) {
     document.querySelector('.logs_fetching').innerHTML = `<svg viewBox="0 0 24 24" class="fetching" xmlns="http://www.w3.org/2000/svg"><path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/></svg>Fetching...`;
+    _isLoaded = false;
     return new Promise(async function (resolve, reject) {
         MusicPlayer.removeAttribute("loop");
         const Header = New('div', {
@@ -230,7 +232,18 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             currentTime.innerHTML = `${reconvert(_Music.currentTime)}`;
             durationTime.innerHTML = `${reconvert(_Music.duration)}`;
             MusicPlayer.setAttribute('src', _src);
-            _Duration = _Music.duration;
+            MusicPlayer.addEventListener('loadedmetadata', async () => {
+                document.querySelector('.logs_fetching').innerHTML = ``;
+                _isLoaded = true;
+                if (_isPlaying === true) {
+                    await MusicPlayer.play()
+                        .then(_ => {
+                            document.querySelector('.logs_fetching').innerHTML = ``;
+                        }).catch(err => {
+                            document.querySelector('.logs_fetching').innerHTML = `${err}...`;
+                        });
+                }
+            });
             if ('mediaSession' in navigator) {
                 const mqdefault = Image.replace('maxresdefault', 'mqdefault');
                 navigator.mediaSession.metadata = new MediaMetadata({
@@ -248,6 +261,7 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             }
         });
 
+
         MusicPlayer.addEventListener('timeupdate', () => {
             if (!MusicPlayer) {
                 console.log("audio not loaded properly or not supported by browser try another audio");
@@ -255,23 +269,11 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
             }
             const current = MusicPlayer.currentTime;
             const duration = MusicPlayer.duration;
-            const Percentage = ((current / duration) * 100);
-            if (duration > 0) {
+            const Percentage = Number((current / duration) * 100);
+            if (!ProgressDrag && duration > 0) {
                 progressAmount.style.width = `${(Percentage)}%`;
                 progressIndicator.style.left = `${(Percentage)}%`;
                 currentTime.innerHTML = `${reconvert(Number(MusicPlayer.currentTime.toFixed(0)))}`;
-            }
-        });
-
-        MusicPlayer.addEventListener('loadedmetadata', async () => {
-            document.querySelector('.logs_fetching').innerHTML = ``;
-            if (_isPlaying === true) {
-                await MusicPlayer.play()
-                    .then(_ => {
-                        document.querySelector('.logs_fetching').innerHTML = ``;
-                    }).catch(err => {
-                        document.querySelector('.logs_fetching').innerHTML = `${err}...`;
-                    });
             }
         });
 
@@ -503,6 +505,7 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
          * @param {MouseEvent | TouchEvent} e
          */
         function Seeking(e) {
+            if (!MusicPlayer.duration) return;
             let Mouse_TouchX;
             if (e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel') {
                 // @ts-ignore
@@ -527,8 +530,12 @@ export default function (MusicPlayer, SongName, Artist, Album, Released, Image, 
                 }
                 progressAmount.style.width = `${percentage}%`;
                 progressIndicator.style.left = `${percentage}%`;
-                const seeked = Number(_Duration * (percentage / 100));
-                MusicPlayer.currentTime = seeked;
+                const seeked = Number(MusicPlayer.duration * (percentage / 100));
+
+                currentTime.innerHTML = `${reconvert(Number(seeked.toFixed(0)))}`;
+                if (e.type === "mouseup" || e.type === "touchend" || e.type === "touchcancel") {
+                    MusicPlayer.currentTime = seeked;
+                }
             }
         };
 
