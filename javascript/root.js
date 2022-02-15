@@ -38,6 +38,12 @@ function reconvert(_Time) {
     }
 }
 
+Array.from(["load", "resize"]).forEach((_event) => {
+    window.addEventListener(_event, () => {
+        _OffSetLeft = Number(Elements.rootApp.offsetLeft + 16);
+    });
+});
+
 /**
  * @param {{ Image: string; Title: string; Artist: string; Album: string; }} _Music
  */
@@ -526,12 +532,6 @@ function rootApp(MusicList, index) {
         });
     });
 }
-
-Array.from(["load", "resize"]).forEach((_event) => {
-    window.addEventListener(_event, () => {
-        _OffSetLeft = Number(Elements.rootApp.offsetLeft + 16);
-    });
-});
 
 
 /**
