@@ -679,6 +679,16 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
         }
     });
 
+    navigator.mediaSession.setActionHandler('previoustrack', function () {
+        /** @type {HTMLElement} */
+        const PreviousButton = document.querySelector('button#PreviousButton');
+        PreviousButton.click();
+    });
+    navigator.mediaSession.setActionHandler('nexttrack', function () {
+        /** @type {HTMLElement} */
+        const NextButton = document.querySelector('button#NextButton');
+        NextButton.click();
+    });
 
     // For ProgressBar
     document.addEventListener('mousedown', (event) => {
