@@ -570,9 +570,7 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
         progressIndicator.style.left = `${percentage}%`;
         const seeked = Number(Elements.MusicPlayer.duration * (percentage / 100));
         currentTime.innerHTML = `${reconvert(Number(seeked.toFixed(0)))}`;
-        if (e.type === "mouseup" || e.type === "touchend") {
-            Elements.MusicPlayer.currentTime = seeked;
-        }
+        Elements.MusicPlayer.currentTime = seeked;
     }
 };
 
