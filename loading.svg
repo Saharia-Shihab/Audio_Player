@@ -1,0 +1,37 @@
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        @-webkit-keyframes fetching {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                fill: black;
+            }
+
+            to {
+                -webkit-transform: rotate(1turn);
+                transform: rotate(1turn);
+                fill: #1100ff;
+            }
+        }
+
+        @keyframes fetching {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                fill: black;
+            }
+
+            to {
+                -webkit-transform: rotate(1turn);
+                transform: rotate(1turn);
+                fill: #1100ff;
+            }
+        }
+
+        svg {
+            -webkit-animation: fetching 320ms linear infinite;
+            animation: fetching 320ms linear infinite;
+        }
+    </style>
+    <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"></path>
+</svg>

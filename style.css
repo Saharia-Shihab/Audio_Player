@@ -137,6 +137,12 @@ aside.sidebar > .sidebar_container > .sidebar_item > .sidebar_list {
 	-ms-flex-pack: center;
 	justify-content: center;
 }
+aside.sidebar > .sidebar_container > .sidebar_item > .sidebar_info:empty {
+	background-image: url("/loading.svg");
+	background-repeat: no-repeat;
+	background-size: 24px;
+	background-position: 50% 50%;
+}
 
 aside.sidebar
 	> .sidebar_container
@@ -359,11 +365,11 @@ main#root > div#app > .header > .headerText {
 }
 
 .thumbnail_container {
-	max-width: 304px;
-	min-width: 304px;
-	max-height: 228px;
-	min-height: 228px;
-	margin: 0px 8px 24px;
+	max-width: 272px;
+	min-width: 272px;
+	max-height: 153px;
+	min-height: 153px;
+	margin: 8px 24px 24px;
 	border-radius: 16px;
 	overflow: hidden;
 	display: -webkit-box;
@@ -821,8 +827,9 @@ main#root > div#app > .header > .headerText {
 	width: fit-content;
 	background-color: #e8f0fe;
 	z-index: 10010;
-	box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%),
-		0 1px 3px 1px rgb(60 64 67 / 15%);
+	-webkit-box-shadow: 0px 2px 4px rgb(0 0 0 / 20%);
+	-moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 2px 4px rgb(0 0 0 / 20%);
 	pointer-events: none;
 }
 
