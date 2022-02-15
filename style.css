@@ -138,7 +138,7 @@ aside.sidebar > .sidebar_container > .sidebar_item > .sidebar_list {
 	justify-content: center;
 }
 aside.sidebar > .sidebar_container > .sidebar_item > .sidebar_info:empty {
-	background-image: url("/loading.svg");
+	background-image: url("./loading.svg");
 	background-repeat: no-repeat;
 	background-size: 24px;
 	background-position: 50% 50%;
