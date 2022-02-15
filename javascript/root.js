@@ -45,9 +45,11 @@ Array.from(["load", "resize"]).forEach((_event) => {
 });
 
 /**
- * @param {{ Image: string; Title: string; Artist: string; Album: string; }} _Music
+ * @param {{Image: string;Title: string;Artist: string;Album: string;}} _Music
+ * @param {HTMLElement} PreviousButton
+ * @param {HTMLElement} NextButton
  */
-function NewMetaData(_Music) {
+function NewMetaData(_Music, PreviousButton, NextButton) {
     if ('mediaSession' in navigator) {
         const mqdefault = _Music.Image.replace('maxresdefault', 'mqdefault');
         navigator.mediaSession.metadata = new MediaMetadata({
@@ -61,6 +63,12 @@ function NewMetaData(_Music) {
                     type: "image/jpeg"
                 }
             ]
+        });
+        navigator.mediaSession.setActionHandler('previoustrack', function () {
+            PreviousButton.click();
+        });
+        navigator.mediaSession.setActionHandler('nexttrack', function () {
+            NextButton.click();
         });
     }
 }
@@ -409,12 +417,6 @@ function rootApp(MusicList, index) {
                 })
             )
         );
-    navigator.mediaSession.setActionHandler('previoustrack', function () {
-        PreviousButton.click();
-    });
-    navigator.mediaSession.setActionHandler('nexttrack', function () {
-        NextButton.click();
-    });
     const InfoButton =
         newElem('button', {
             class: 'ripple_effect',
@@ -491,7 +493,7 @@ function rootApp(MusicList, index) {
                 newElem('img', {
                     src: _Music.Image,
                     style: {
-                        borderRadius: "8px",
+                        borderRadius: '16px',
                         marginBottom: "8px"
                     }
                 }),
@@ -527,12 +529,11 @@ function rootApp(MusicList, index) {
             durationTime.innerHTML = `${reconvert(Elements.MusicPlayer.duration)}`;
             document.querySelector('.logs_fetching').innerHTML = ``;
             document.querySelectorAll('.sidebar_item')[index].classList.add('isActive');
-            NewMetaData(_Music);
+            NewMetaData(_Music, PreviousButton, NextButton);
             resolve(musicApp);
         });
     });
 }
-
 
 /**
  * @param {MouseEvent | TouchEvent} e
@@ -569,7 +570,7 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
         progressIndicator.style.left = `${percentage}%`;
         const seeked = Number(Elements.MusicPlayer.duration * (percentage / 100));
         currentTime.innerHTML = `${reconvert(Number(seeked.toFixed(0)))}`;
-        if (e.type === "mouseup" || e.type === "touchend" || e.type === "touchcancel") {
+        if (e.type === "mouseup" || e.type === "touchend") {
             Elements.MusicPlayer.currentTime = seeked;
         }
     }
@@ -643,7 +644,7 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
                 MediaPlayer.durationTime.innerHTML = `${reconvert(Player.duration)}`;
                 MediaPlayer.progressAmount.removeAttribute('style');
                 MediaPlayer.progressIndicator.removeAttribute('style');
-                _isPlaying && Elements.MusicPlayer.play().then(_ => NewMetaData({ Title, Artist, Album, Image })).catch(() => _isPlaying = false);
+                _isPlaying && Elements.MusicPlayer.play().then(_ => NewMetaData({ Title, Artist, Album, Image }, document.querySelector('button#PreviousButton'), document.querySelector('button#NextButton'))).catch(() => _isPlaying = false);
             });
         });
     });
@@ -662,7 +663,7 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
                     svgPath.setAttributeNS(null, 'd', "M12 5V2.21c0-.45-.54-.67-.85-.35l-3.8 3.79c-.2.2-.2.51 0 .71l3.79 3.79c.32.31.86.09.86-.36V7c3.73 0 6.68 3.42 5.86 7.29-.47 2.27-2.31 4.1-4.57 4.57-3.57.75-6.75-1.7-7.23-5.01-.07-.48-.49-.85-.98-.85-.6 0-1.08.53-1 1.13.62 4.39 4.8 7.64 9.53 6.72 3.12-.61 5.63-3.12 6.24-6.24C20.84 9.48 16.94 5 12 5z");
                 } else {
                     /** @type {HTMLElement} */
-                    const NextButton = document.querySelector('div#NextButton');
+                    const NextButton = document.querySelector('button#NextButton');
                     NextButton.click();
                 }
             }
@@ -712,12 +713,6 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
         }
     });
     document.addEventListener('touchend', function (event) {
-        if (ProgressDrag) {
-            ProgressDrag = false;
-            Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
-        }
-    });
-    document.addEventListener('touchcancel', function (event) {
         if (ProgressDrag) {
             ProgressDrag = false;
             Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
