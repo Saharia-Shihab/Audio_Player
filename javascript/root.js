@@ -288,7 +288,6 @@ function rootApp(MusicList, index) {
         },
             newElem('img', { src: _Music.Image })
         );
-
     const BodyContainer =
         newElem('div', { class: 'body_container' },
             newElem('div', {
@@ -298,7 +297,6 @@ function rootApp(MusicList, index) {
                 id: 'Song_Album'
             }, _Music.Album)
         );
-
     const progressLine =
         newElem('div', {
             class: 'progress_line'
@@ -319,7 +317,6 @@ function rootApp(MusicList, index) {
         newElem('div', {
             class: 'progress_bar',
         }, progressList);
-
     const currentTime =
         newElem('div', {
             class: 'currentTime'
@@ -328,8 +325,6 @@ function rootApp(MusicList, index) {
         newElem('div', {
             class: 'durationTime'
         });
-
-
     const RepeatButton =
         newElem('button', {
             class: 'ripple_effect',
@@ -443,7 +438,6 @@ function rootApp(MusicList, index) {
                 })
             )
         );
-
     const Info_Container =
         newElem('div', { class: 'info_container', id: 'Time_Matters' },
             newElem('div', {
@@ -508,7 +502,6 @@ function rootApp(MusicList, index) {
                 newElem('div', { id: 'Info_Released' }, `Released: ${_Music.Released}`)
             )
         );
-
     const musicApp = document.createDocumentFragment();
     musicApp.append(
         Header, ThumbnailContainer, BodyContainer, newElem('div', {
@@ -521,7 +514,6 @@ function rootApp(MusicList, index) {
         newElem('div', { class: 'controls_container' }, RepeatButton, PreviousButton, PlayPauseButton, NextButton, InfoButton),
         Info_Container
     );
-
     return new Promise((resolve) => {
         Elements.MusicPlayer.setAttribute("src", _Music._src);
         Elements.MusicPlayer.addEventListener('loadedmetadata', function () {
@@ -544,6 +536,7 @@ function rootApp(MusicList, index) {
  */
 function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime) {
     if (!Elements.MusicPlayer.duration) return;
+    console.log(e.type);
     let Mouse_TouchX;
     if (e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel') {
         // @ts-ignore
@@ -569,8 +562,10 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
         progressAmount.style.width = `${percentage}%`;
         progressIndicator.style.left = `${percentage}%`;
         const seeked = Number(Elements.MusicPlayer.duration * (percentage / 100));
-        currentTime.innerHTML = `${reconvert(Number(seeked.toFixed(0)))}`;
-        Elements.MusicPlayer.currentTime = seeked;
+        if (seeked <= Elements.MusicPlayer.duration) {
+            currentTime.innerHTML = `${reconvert(Number(seeked.toFixed(0)))}`;
+            Elements.MusicPlayer.currentTime = seeked;
+        }
     }
 };
 
@@ -619,17 +614,17 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
         });
     });
     [].forEach.call(Array.from(document.querySelectorAll('.sidebar_item')), function (elem, index) {
-        elem.addEventListener('click', async () => {
+        elem.addEventListener('click', async function () {
+            if (elem.classList.contains('isActive')) return;
             await FetchMusic(MetaData, index, ({ Player, Title, Artist, Album, Released, Image, _src }, error) => {
-                if (error)
-                    return "";
+                if (error) return "";
                 document.querySelector('aside.sidebar').classList.remove('isOpen');
                 document.querySelector('#isOverLay') ? document.querySelector('#isOverLay').remove() : null;
                 Array.from(document.querySelectorAll('.sidebar_item')).forEach(element => {
                     if (element.classList.contains('isActive'))
                         element.classList.remove('isActive');
                 });
-                document.querySelectorAll('.sidebar_item')[index].classList.add('isActive');
+                elem.classList.add('isActive');
                 localStorage.setItem('Default', `${index}`);
                 MediaPlayer.ThumbnailImage.src = Image;
                 MediaPlayer.__Image.src = Image;
