@@ -1,7 +1,7 @@
 import newElem from './bin/newElem.js';
 import newSVG from './bin/newSVG.js';
 import ripple from './bin/ripple.js';
-import letCSS from './bin/util.js';
+import { letCSS, reconvert } from './bin/util.js';
 import MetaData from './MetaData.js';
 const _Length = MetaData.length;
 const Elements = {
@@ -20,23 +20,6 @@ let _OffSetLeft;
 /** @type {Boolean} */
 let ProgressDrag;
 
-/**
- * @param {number} _Time
- * @returns {string}
- */
-function reconvert(_Time) {
-    let hours = `${Math.floor(_Time / 3600)}`;
-    let minutes = `${Math.floor((_Time % 3600) / 60)}`;
-    let seconds = `${Math.floor(_Time % 60)}`;
-    seconds = String(seconds).padStart(2, "0");
-    minutes = String(minutes).padStart(1);
-    hours = String(hours).padStart(1);
-    if (Number(_Time) < 3600) {
-        return (minutes + ":" + seconds);
-    } else {
-        return (hours + ":" + minutes + ":" + seconds);
-    }
-}
 
 Array.from(["load", "resize"]).forEach((_event) => {
     window.addEventListener(_event, () => {
