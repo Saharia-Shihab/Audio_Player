@@ -1,6 +1,7 @@
 import newElem from './bin/newElem.js';
 import newSVG from './bin/newSVG.js';
 import ripple from './bin/ripple.js';
+import letCSS from './bin/util.js';
 import MetaData from './MetaData.js';
 const _Length = MetaData.length;
 const Elements = {
@@ -536,7 +537,6 @@ function rootApp(MusicList, index) {
  */
 function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime) {
     if (!Elements.MusicPlayer.duration) return;
-    console.log(e.type);
     let Mouse_TouchX;
     if (e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel') {
         // @ts-ignore
@@ -635,8 +635,26 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
                 MediaPlayer.__Info_Album.textContent = `Album: ${Album}`;
                 MediaPlayer.currentTime.innerHTML = `${reconvert(Player.currentTime)}`;
                 MediaPlayer.durationTime.innerHTML = `${reconvert(Player.duration)}`;
-                MediaPlayer.progressAmount.removeAttribute('style');
-                MediaPlayer.progressIndicator.removeAttribute('style');
+                MediaPlayer.progressAmount.animate([{
+                    width: letCSS(MediaPlayer.progressAmount, "width")
+                }, {
+                    width: '0px'
+                }], {
+                    duration: 150,
+                    easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)'
+                }).addEventListener('finish', function () {
+                    MediaPlayer.progressAmount.style.width = "0";
+                });
+                MediaPlayer.progressIndicator.animate([{
+                    left: letCSS(MediaPlayer.progressIndicator, "left")
+                }, {
+                    left: '0px'
+                }], {
+                    duration: 150,
+                    easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)'
+                }).addEventListener('finish', function () {
+                    MediaPlayer.progressIndicator.style.left = "0";
+                });
                 _isPlaying && Elements.MusicPlayer.play().then(_ => NewMetaData({ Title, Artist, Album, Image }, document.querySelector('button#PreviousButton'), document.querySelector('button#NextButton'))).catch(() => _isPlaying = false);
             });
         });
