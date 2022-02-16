@@ -289,7 +289,8 @@ function rootApp(MusicList, index) {
         );
     const BodyContainer =
         newElem('div', { class: 'body_container' },
-            newElem('div', {
+            newElem('marquee', {
+                behavior: "scroll",
                 id: 'Song_Title'
             }, _Music.Title),
             newElem('div', {
