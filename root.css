@@ -813,7 +813,7 @@ h6 a {
 		background: #0000;
 	}
 	::-webkit-scrollbar-thumb {
-		background-color: #fcfcfc;
+		background-color: #dadce0;
 		background-clip: padding-box;
 		border-style: solid;
 		border-color: #0000;
@@ -824,7 +824,7 @@ h6 a {
 		padding: 100px 0 0;
 	}
 	::-webkit-scrollbar-thumb {
-		background-color: #0a0a0abf;
+		background-color: #dadce0;
 		-webkit-border-radius: 1px;
 		border-radius: 1px;
 		border-width: 0;
