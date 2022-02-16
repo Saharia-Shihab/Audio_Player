@@ -3,7 +3,6 @@ import newSVG from './bin/newSVG.js';
 import ripple from './bin/ripple.js';
 import MetaData from './MetaData.js';
 const _Length = MetaData.length;
-
 const Elements = {
     /** @type {HTMLElement} */
     AsideBar: document.querySelector('aside#Sidebar'),
@@ -678,7 +677,29 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
             MediaPlayer.currentTime.innerHTML = `${reconvert(Number(Elements.MusicPlayer.currentTime.toFixed(0)))}`;
         }
     });
+    [].forEach.call(["mousedown", "touchstart"], function (type) {
+        document.addEventListener(type, function (event) {
+            if (event.target === MediaPlayer.ProgressBar) {
+                ProgressDrag = true;
+                Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
+            }
+        });
+    });
+    [].forEach.call(["mousemove", "touchmove"], function (type) {
+        document.addEventListener(type, function (event) {
+            ProgressDrag && Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
+        });
+    });
+    [].forEach.call(["mouseup", "touchend", "touchcancel"], function (type) {
+        document.addEventListener(type, function (event) {
+            if (ProgressDrag) {
+                ProgressDrag = false;
+                Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
+            }
+        });
+    });
 
+}).then(() => {
     navigator.mediaSession.setActionHandler('previoustrack', function () {
         /** @type {HTMLElement} */
         const PreviousButton = document.querySelector('button#PreviousButton');
@@ -689,40 +710,6 @@ function Seeking(e, ProgressBar, progressAmount, progressIndicator, currentTime)
         const NextButton = document.querySelector('button#NextButton');
         NextButton.click();
     });
-
-    // For ProgressBar
-    document.addEventListener('mousedown', (event) => {
-        if (event.target === MediaPlayer.ProgressBar) {
-            ProgressDrag = true;
-            Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
-        }
-    });
-    document.addEventListener("touchstart", function (event) {
-        if (event.target === MediaPlayer.ProgressBar) {
-            ProgressDrag = true;
-            Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
-        }
-    });
-    document.addEventListener('mousemove', function (event) {
-        ProgressDrag && Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
-    });
-    document.addEventListener('touchmove', function (event) {
-        ProgressDrag && Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
-    });
-    document.addEventListener('mouseup', function (event) {
-        if (ProgressDrag) {
-            ProgressDrag = false;
-            Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
-        }
-    });
-    document.addEventListener('touchend', function (event) {
-        if (ProgressDrag) {
-            ProgressDrag = false;
-            Seeking(event, MediaPlayer.ProgressBar, MediaPlayer.progressAmount, MediaPlayer.progressIndicator, MediaPlayer.currentTime);
-        }
-    });
-
-}).then(() => {
     ripple();
 });
 Array.from(["load", "resize"]).forEach((_event) => {
