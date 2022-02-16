@@ -189,6 +189,13 @@ export default [
         Released: 2016,
         Image: img('x5Ccnb6Fln8'),
         _src: 'https://cdn.discordapp.com/attachments/941340630792171540/942823551214428220/Mayabono_Biharini_Rabindra_Sangeet_by_Somlata_Acharyya_Chowdhury256k.mp3'
+    }, {
+        Title: "Gangsta's Paradise",
+        Artists: "Coolio, Kylian Mash ft. L.V.",
+        Album: "Gangsta's Paradise",
+        Released: 2011,
+        Image: img('x5Ccnb6Fln8'),
+        _src: 'https://cdn.discordapp.com/attachments/941340630792171540/943399266364297216/y2mate.com_-_Coolio_Gangstas_Paradise_feat_LV_Official_Music_Video.mp3'
     }
 ].sort(function (a, b) {
     if (a.Title < b.Title) { return -1; }
