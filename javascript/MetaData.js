@@ -187,7 +187,7 @@ export default [
         Artist: "Somlata Acharyya Chowdhury",
         Album: "Dekhechi Ruosagore",
         Released: 2016,
-        Image: img('x5Ccnb6Fln8'),
+        Image: img('FT2zXQ1nbd4'),
         _src: 'https://cdn.discordapp.com/attachments/941340630792171540/942823551214428220/Mayabono_Biharini_Rabindra_Sangeet_by_Somlata_Acharyya_Chowdhury256k.mp3'
     }, {
         Title: "Gangsta's Paradise",
@@ -201,7 +201,7 @@ export default [
         Artist: "Tesher",
         Album: "Young Shahrukh",
         Released: 2020,
-        Image: img('6nEc9455oJk'),
+        Image: img('ctUvZCOa4Hc'),
         _src: 'https://cdn.discordapp.com/attachments/941340630792171540/943447003281625168/y2mate.com_-_Tesher_YOUNG_SHAHRUKH.mp3',
     }
 ].sort(function (a, b) {

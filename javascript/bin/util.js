@@ -24,4 +24,14 @@ function reconvert(Time) {
         return (hours + ":" + minutes + ":" + seconds);
     }
 }
-export { letCSS, reconvert }
+
+/**
+ * @param {Function} callback
+ * @param {Array} Arrays
+ */
+
+function useLoop(callback, Arrays) {
+    Array.from(Arrays).forEach(item => callback(item));
+};
+
+export { letCSS, reconvert, useLoop }
